@@ -1,5 +1,5 @@
 <?php
-
+//mensaje
 	if($peticionAjax){
 		require_once "../modelos/usuarioModelo.php";
 	}else{
