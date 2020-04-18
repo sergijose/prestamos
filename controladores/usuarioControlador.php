@@ -39,7 +39,7 @@
 
 
 			/*== Verificando integridad de los datos ==*/
-			if(mainModel::verificar_datos("[0-9-]{10,20}",$dni)){
+			if(mainModel::verificar_datos("[0-9-]{8,20}",$dni)){
 				$alerta=[
 					"Alerta"=>"simple",
 					"Titulo"=>"Ocurrió un error inesperado",
