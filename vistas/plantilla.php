@@ -18,6 +18,7 @@
 			require_once "./vistas/contenidos/".$vistas."-view.php";
 
 		}else{
+			session_start(['name'=>'SPM']);
 	?>
 	<!-- Main container -->
 	<main class="full-box main-container">
