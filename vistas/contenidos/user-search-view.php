@@ -1,3 +1,11 @@
+<?php 
+if($_SESSION['privilegio_spm']!=1){
+	echo $lc->forzar_cierre_sesion_controlador();
+			exit();
+}
+ ?>
+
+
 <div class="full-box page-header">
 	<h3 class="text-left">
 		<i class="fas fa-search fa-fw"></i> &nbsp; BUSCAR USUARIO

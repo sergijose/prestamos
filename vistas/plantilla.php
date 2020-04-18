@@ -19,6 +19,14 @@
 
 		}else{
 			session_start(['name'=>'SPM']);
+			require_once "./controladores/loginControlador.php";
+			$lc=new loginControlador();
+
+		if(!isset($_SESSION['token_spm']) || !isset($_SESSION['usuario_spm']) || !isset($_SESSION['privilegio_spm']) || !isset($_SESSION['id_spm'])){
+			
+			echo $lc->forzar_cierre_sesion_controlador();
+			exit();
+			}
 	?>
 	<!-- Main container -->
 	<main class="full-box main-container">

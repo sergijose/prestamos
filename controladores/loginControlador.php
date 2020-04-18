@@ -23,6 +23,7 @@
 				});
 				</script>
 				';
+				exit();
 			}
 			//verificar integridad de los datos
 			if(mainModel::verificar_datos("[a-zA-Z0-9]{1,35}",$usuario)){
@@ -36,6 +37,7 @@
 				});
 				</script>
 				';
+				exit();
 			}
 			if(mainModel::verificar_datos("[a-zA-Z0-9$@.-]{7,100}",$clave)){
 
@@ -48,6 +50,7 @@
 				});
 				</script>
 				';
+				exit();
 			}
 			$clave=mainModel::encryption($clave);
 			$datos_login=[
@@ -79,7 +82,21 @@
 				</script>
 				';
 			}
+		}//fin de controlador
+
+		//  controlador forzar cierre de sesion
+		public function forzar_cierre_sesion_controlador(){
+
+		session_unset();			
+		session_destroy();
+		if(headers_sent()){
+			return "<script> window.location.href='".SERVERURL."login/'; </script>";
+		}else{
+			return header("location: ".SERVERURL."login/");
 		}
+
+
+		} //fin controlador
 	}
 
 		?>
