@@ -118,10 +118,119 @@
 				];
 				echo json_encode($alerta);
 				exit();
+
 			}
-			
+			//comprobando DNi
+			$check_dni=mainModel::ejecutar_consulta_simple("SELECT usuario_dni FROM usuario WHERE usuario_dni='$dni'");
+			if($check_dni->rowCount()>0){
+				$alerta=[
+					"Alerta"=>"simple",
+					"Titulo"=>"Ocurrió un error inesperado",
+					"Texto"=>"El DNI ingresado ya se encuentra registrado",
+					"Tipo"=>"error"
+				];
+				echo json_encode($alerta);
+				exit();
+
+			}
+				//comprobando usuario
+			$check_user=mainModel::ejecutar_consulta_simple("SELECT usuario_usuario FROM usuario WHERE usuario_usuario='$usuario'");
+			if($check_user->rowCount()>0){
+				$alerta=[
+					"Alerta"=>"simple",
+					"Titulo"=>"Ocurrió un error inesperado",
+					"Texto"=>"El NOMBRE DE USUARIO ya se encuentra en el sistema",
+					"Tipo"=>"error"
+				];
+				echo json_encode($alerta);
+				exit();
+			}
+			// comprobando email
+			if($email!=""){
+				if(filter_var($email,FILTER_VALIDATE_EMAIL)){
+				$check_email=mainModel::ejecutar_consulta_simple("SELECT usuario_email FROM usuario WHERE usuario_email='$email'");
+			if($check_user->rowCount()>0){
+				$alerta=[
+					"Alerta"=>"simple",
+					"Titulo"=>"Ocurrió un error inesperado",
+					"Texto"=>"El EMAIL ingresado yas e encuentra en el sistema",
+					"Tipo"=>"error"
+				];
+				echo json_encode($alerta);
+				exit();
+			}	
+				}else{
+					$alerta=[
+					"Alerta"=>"simple",
+					"Titulo"=>"Ocurrió un error inesperado",
+					"Texto"=>"Ha ingresado un correo no valido",
+					"Tipo"=>"error"
+				];
+				echo json_encode($alerta);
+				exit();
+				}
+			}
+
+			//comprobando claves
+			if($clave1!=$clave2){
+				$alerta=[
+					"Alerta"=>"simple",
+					"Titulo"=>"Ocurrió un error inesperado",
+					"Texto"=>"Las claves que acaba de ingresar no coinciden",
+					"Tipo"=>"error"
+				];
+				echo json_encode($alerta);
+				exit();
+			}else{
+				$clave=mainModel::encryption($clave1);
+
+			}
+			//comprobando privilegio
+			if($privilegio<1 || $privilegio>3){
+					$alerta=[
+					"Alerta"=>"simple",
+					"Titulo"=>"Ocurrió un error inesperado",
+					"Texto"=>"El PRIVILEGIO selecionado no es valido",
+					"Tipo"=>"error"
+				];
+				echo json_encode($alerta);
+				exit();
+			}
+
+			$datos_usuario_reg=[
+			"DNI"=>$dni,
+			"Nombre"=>$nombre,
+			"Apellido"=>$apellido,
+			"Telefono"=>$telefono,
+			"Direccion"=>$direccion,
+			"Email"=>$email,
+			"Usuario"=>$usuario,
+			"Clave"=>$clave,
+			"Estado"=>"Activo",
+			"Privilegio"=>$privilegio	
+			];
+			$agregar_usuario=usuarioModelo::agregar_usuario_modelo($datos_usuario_reg);
+			if($agregar_usuario->rowCount()==1){
+				$alerta=[
+					"Alerta"=>"limpiar",
+					"Titulo"=>"Usuario registrado",
+					"Texto"=>"los datos del usuario han sido registrados con exito ",
+					"Tipo"=>"success"
+				];
+			}else{
+				$alerta=[
+					"Alerta"=>"simple",
+					"Titulo"=>"Ocurrió un error inesperado",
+					"Texto"=>"No hemos podido registrar el usuario ",
+					"Tipo"=>"error"
+				];
+				
+			}
+			echo json_encode($alerta);
+
+
 
 			
-		}
+		} //fin del controlador
 
 	}
